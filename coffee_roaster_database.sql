@@ -2,7 +2,7 @@
 
 /*
 CREATE TABLE tblCustomer (
-CustomerID 	INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+CustomerID 	    INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 CustomerFname 	varchar(50) NOT NULL,
 CustomerLname 	varchar(50) NULL,
 CustomerPhone   INT(10, 1) NULL,
@@ -12,10 +12,23 @@ CustomerBirth   DATE NOT NULL
 
 GO
 
+CREATE TABLE tblSupplier (
+SupplierID 	    INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+SupplierName 	varchar(50) NOT NULL,
+SupplierPhone 	varchar(50) NULL,
+SupplierEmail   INT(10, 1) NULL,
+SupplierAddress varchar(50) NULL,
+SupplierCity    varchar(50) NOT NULL,
+SupplierState   varchar(50) NOT NULL,
+SupplierZip     INT(5,1) NOT NULL
+)
+
+GO
+
 CREATE TABLE tblPosition (
 PositionID 		INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 PositionName 	varchar(50) NOT NULL,
-PositionDec 	varchar(500) NULL
+PositionDesc 	varchar(500) NULL
 )
 
 GO
@@ -39,23 +52,36 @@ EmployeePhone3 		INT(10,1) NULL
 
 GO
 
-CREATE TABLE tblATHLETE (
-AthleteID 		INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-Fname 			varchar(30) NOT NULL,
-Lname 			varchar(30) NOT NULL,
-BirthDate 		Date NOT NULL
+CREATE TABLE tblCafe (
+CafeID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+CafeName
+CafeAddress
+CafeCity
+CafeState
+CafeZip
+CafePhone
+CafePhone2
+CafePhone3
 )
 
 GO
 
+CREATE TABLE tblOrder(
+OrderID     INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+CustomerID  INTEGER FOREIGN KEY REFERENCES tblPosition (PositionID) NOT NULL,
+)
 
-CREATE TABLE tblEVENT_ATHLETE (
-EventAthleteID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-EventID 		INT FOREIGN KEY REFERENCES tblEVENT (EventID) NOT NULL,
-AthleteID		INT FOREIGN KEY REFERENCES tblATHLETE (AthleteID) NOT NULL
+CREATE TABLE tblLineItem(
+LineItemID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 )
 
 GO
+
+CREATE TABLE tblPurchaseOrder(
+PurchaseOrderID     INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+CustomerID  INTEGER FOREIGN KEY REFERENCES tblPosition (PositionID) NOT NULL,
+)
+
 
 
 */
