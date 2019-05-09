@@ -2,12 +2,12 @@
 
 /*
 CREATE TABLE tblCustomer (
-CustomerID 	    INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-CustomerFname 	varchar(50) NOT NULL,
-CustomerLname 	varchar(50) NULL,
-CustomerPhone   INT(10, 1) NULL,
-CustomerEmail   varchar(50) NULL,
-CustomerBirth   DATE NOT NULL
+CustomerID int IDENTITY(1,1) PRIMARY KEY NOT NULL,
+CustomerFname varchar(50) NOT NULL,
+CustomerLname varchar(50) NULL,
+CustomerPhone integer NULL,
+CustomerEmail varchar(50) NULL,
+CustomerBirth DATE NOT NULL
 )
 
 GO
