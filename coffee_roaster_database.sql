@@ -100,8 +100,17 @@ VendorTypeID  	INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 GO 
 
 CREATE TABLE tblVendor(
-VendorID  			INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-VendorTypeID  	INTEGER FOREIGN KEY REFERENCES tblVendorType (VendorTypeID) NOT NULL,
+VendorID  			  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+VendorTypeID  	  INTEGER FOREIGN KEY REFERENCES tblVendorType (VendorTypeID) NOT NULL,
+VendorName 			  VARCHAR(80) NOT NULL,
+ContactFname 		  VARCHAR(50) NOT NULL,
+ContactLname 		  VARCHAR(50) NULL,
+ContactPhone 		  CHAR(8) NULL,
+ContactEmail 		  VARCHAR(50) NULL,
+VendorAddress 	  VARCHAR(50) NULL,
+VendorCity    	  VARCHAR(50) NOT NULL,
+VendorState   	  VARCHAR(50) NOT NULL,
+VendorZip     	  CHAR(10) NOT NULL
 )
 
 GO
