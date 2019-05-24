@@ -3,10 +3,10 @@
 /*
 CREATE TABLE tblCustomer (
 CustomerID int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-CustomerFname varchar(50) NOT NULL,
-CustomerLname varchar(50) NULL,
+CustomerFname VARCHAR(50) NOT NULL,
+CustomerLname VARCHAR(50) NULL,
 CustomerPhone integer NULL,
-CustomerEmail varchar(50) NULL,
+CustomerEmail VARCHAR(50) NULL,
 CustomerBirth DATE NOT NULL
 )
 
@@ -14,13 +14,13 @@ GO
 
 CREATE TABLE tblSupplier (
 SupplierID 	    INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-SupplierName 	varchar(50) NOT NULL,
-SupplierPhone 	varchar(50) NULL,
-SupplierEmail   INT(10, 1) NULL,
-SupplierAddress varchar(50) NULL,
-SupplierCity    varchar(50) NOT NULL,
-SupplierState   varchar(50) NOT NULL,
-SupplierZip     INT(5,1) NOT NULL
+SupplierName 		VARCHAR(50) NOT NULL,
+SupplierPhone 	VARCHAR(50) NULL,
+SupplierEmail   VARCHAR(80) NULL,
+SupplierAddress VARCHAR(50) NULL,
+SupplierCity    VARCHAR(50) NOT NULL,
+SupplierState   VARCHAR(50) NOT NULL,
+SupplierZip     CHAR(10) NOT NULL
 )
 
 GO
@@ -35,19 +35,19 @@ GO
 
 CREATE TABLE tblEmployee (
 EmployeeID 		    INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-PositionID          INTEGER FOREIGN KEY REFERENCES tblPosition (PositionID) NOT NULL,
-EmployeeFname 		varchar(50) NOT NULL,
-EmployeeLname 	    varchar(50) NOT NULL,
+PositionID        INTEGER FOREIGN KEY REFERENCES tblPosition (PositionID) NOT NULL,
+EmployeeFname 		VARCHAR(50) NOT NULL,
+EmployeeLname 	  VARCHAR(50) NOT NULL,
 EmployeeBirth 		DATE NOT NULL,
-EmployeeAddress 	varchar(50) NOT NULL,
-EmployeeAddress2    varchar(50) NULL,
-Employee City       varchar(50) NOT NULL,
-EmployeeState       varchar(50) NOT NULL,
-EmployeeZip         INT(5,1),
-EmployeeEmail       varchar(50) NOT NULL,
-EmployeePhone       INT(10,1) NOT NULL,
-EmployeePhone2      INT(10,1) NULL,
-EmployeePhone3 		INT(10,1) NULL
+EmployeeAddress 	VARCHAR(50) NOT NULL,
+EmployeeAddress2  VARCHAR(50) NULL,
+EmployeeCity      VARCHAR(50) NOT NULL,
+EmployeeState     VARCHAR(50) NOT NULL,
+EmployeeZip       CHAR(5),
+EmployeeEmail     VARCHAR(80) NOT NULL,
+EmployeePhone     CHAR(10) NOT NULL,
+EmployeePhone2    CHAR(10) NULL,
+EmployeePhone3 		CHAR(10) NULL
 )
 
 GO
@@ -81,7 +81,4 @@ CREATE TABLE tblPurchaseOrder(
 PurchaseOrderID     INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 CustomerID  INTEGER FOREIGN KEY REFERENCES tblPosition (PositionID) NOT NULL,
 )
-
-
-
 */
