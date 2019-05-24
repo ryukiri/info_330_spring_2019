@@ -1,5 +1,4 @@
 -- CREATE DATABASE COFFEE_ROASTER_SP
-
 /*
 CREATE TABLE tblPosition (
 PositionID 		INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -11,13 +10,11 @@ GO
 
 CREATE TABLE tblEmpPosition (
 EmpPositionID 		INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-EmployeeID 				INTEGER FOREIGN KEY REFERENCES tblEmployee (EmployeeID) NOT NULL,
 PositionID 				INTEGER FOREIGN KEY REFERENCES tblPosition (PositionID) NOT NULL,
 BeginDate 				DATE NOT NULL,
 EndDate 					DATE NULL,
 Wage 							NUMERIC(18,2) NOT NULL
 )
-
 
 GO
 
@@ -161,4 +158,5 @@ ProductID				INTEGER FOREIGN KEY REFERENCES tblProduct (ProductID) NOT NULL,
 EmployeeID			INTEGER FOREIGN KEY REFERENCES tblEmployee (EmployeeID) NOT NULL,
 LineItemTotal		NUMERIC(18,2) NOT NULL,
 LineItemQty			INT NOT NULL,
-)*/
+)
+*/
