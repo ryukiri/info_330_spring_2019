@@ -168,7 +168,6 @@ EmployeeID			INTEGER FOREIGN KEY REFERENCES tblEmployee (EmployeeID) NOT NULL,
 LineItemTotal		NUMERIC(18,2) NOT NULL,
 LineItemQty			INT NOT NULL,
 )
-*/
 
 CREATE TABLE tblCountryOfOrigin(
     CountryOfOriginID   INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -177,20 +176,20 @@ CREATE TABLE tblCountryOfOrigin(
 )
 
 CREATE TABLE tblShipment(
-    ShipmentID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-    ShipmentDate DATE,
-    ShipmentQty NUMERIC(8,2),
-    ShipmentCompany varchar(30)
+    ShipmentID  			INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    ShipmentDate 			DATE,
+    ShipmentQty 			NUMERIC(8,2),
+    ShipmentCompany 	varchar(30)
 )
 
 CREATE TABLE tblCountryOfOriginShip(
-    CountryOfOriginShipID   INT IDENTITY PRIMARY KEY NOT NULL,
-    ShipmentID  INTEGER FOREIGN KEY REFERENCES tblShipment (ShipmentID) NOT NULL,
-    CountryOfOriginID   INTEGER FOREIGN KEY REFERENCES tblCountryOfOrigin (CountryOfOriginID) NOT NULL
+    CountryOfOriginShipID   INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    ShipmentID  						INTEGER FOREIGN KEY REFERENCES tblShipment (ShipmentID) NOT NULL,
+    CountryOfOriginID   		INTEGER FOREIGN KEY REFERENCES tblCountryOfOrigin (CountryOfOriginID) NOT NULL
 )
 
 CREATE TABLE tblEquipmentType(
-    EquipmentType   INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    EquipmentTypeID   INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     EquipmentTypeName varchar(30),
     EquipmentTypeDesc varchar(50)
 )
@@ -227,12 +226,12 @@ CREATE TABLE tblShipmentStatus(
 )
 
 CREATE TABLE tblBean(
-    BeanID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-    BeanType    varchar(30),
-    HarvestDate DATE,
-    BeanCost    numeric(8,2),
-    BeanStatusID    INTEGER FOREIGN KEY REFERENCES tblBeanStatus (BeanStatusID) NOT NULL,
-    CountryOfOriginShip INTEGER FOREIGN KEY REFERENCES tblCountryOfOriginShip (CountryOfOriginID) NOT NULL,
+    BeanID  						INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    BeanType    				varchar(30),
+    HarvestDate 				DATE,
+    BeanCost    				numeric(8,2),
+    BeanStatusID    		INTEGER FOREIGN KEY REFERENCES tblBeanStatus (BeanStatusID) NOT NULL,
+    CountryOfOriginShip INTEGER FOREIGN KEY REFERENCES tblCountryOfOriginShip (CountryOfOriginShipID) NOT NULL,
     ShipmentStatusID    INTEGER FOREIGN KEY REFERENCES tblShipmentStatus (ShipmentStatusID) NOT NULL,
 )
 
@@ -244,4 +243,6 @@ CREATE TABLE tblRoasterShipID(
     BeanID INTEGER FOREIGN KEY REFERENCES tblBean (BeanID) NOT NULL,
     LocationID  INTEGER FOREIGN KEY REFERENCES tblLocation(LocationID) NOT NULL
 )
+*/
+
 
