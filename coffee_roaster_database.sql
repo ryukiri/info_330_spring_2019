@@ -119,6 +119,7 @@ FoodID  				INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 ProductTypeID  	INTEGER FOREIGN KEY REFERENCES tblProductType (ProductTypeID) NOT NULL,
 )
 
+<<<<<<< HEAD
 GO
 
 CREATE TABLE tblDrinkType(
@@ -160,3 +161,22 @@ LineItemTotal		NUMERIC(18,2) NOT NULL,
 LineItemQty			INT NOT NULL,
 )
 */
+
+GO
+
+USE coffee_roaster
+
+GO
+
+INSERT INTO tblCountryOfOrigin (CountryName, CountryDesc)
+VALUES ('Ethiopia', 'african country'), ('Panama', 'central american country'), ('Brazil', 'south american country'), ('Indonesia', 'islands in south east asia')
+
+GO
+
+INSERT INTO tblEquipmentType (EquipmentTypeName, EquipmentTypeDesc)
+VALUES ('Coffee Roaster', '10kg gas coffee roaster')
+
+GO
+
+INSERT INTO tblPosition (PositionName, PositionDesc)
+VALUES ('Barista', 'Makes drinks and stuff'), ('Shop Manager', 'manages stuff'), ('Janitor', 'cleans stuff')
