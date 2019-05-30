@@ -100,8 +100,17 @@ VendorTypeID  	INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 GO 
 
 CREATE TABLE tblVendor(
-VendorID  			INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-VendorTypeID  	INTEGER FOREIGN KEY REFERENCES tblVendorType (VendorTypeID) NOT NULL,
+VendorID  			  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+VendorTypeID  	  INTEGER FOREIGN KEY REFERENCES tblVendorType (VendorTypeID) NOT NULL,
+VendorName 			  VARCHAR(80) NOT NULL,
+ContactFname 		  VARCHAR(50) NOT NULL,
+ContactLname 		  VARCHAR(50) NULL,
+ContactPhone 		  CHAR(8) NULL,
+ContactEmail 		  VARCHAR(50) NULL,
+VendorAddress 	  VARCHAR(50) NULL,
+VendorCity    	  VARCHAR(50) NOT NULL,
+VendorState   	  VARCHAR(50) NOT NULL,
+VendorZip     	  CHAR(10) NOT NULL
 )
 
 GO
@@ -119,7 +128,6 @@ FoodID  				INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 ProductTypeID  	INTEGER FOREIGN KEY REFERENCES tblProductType (ProductTypeID) NOT NULL,
 )
 
-<<<<<<< HEAD
 GO
 
 CREATE TABLE tblDrinkType(
@@ -159,6 +167,81 @@ ProductID				INTEGER FOREIGN KEY REFERENCES tblProduct (ProductID) NOT NULL,
 EmployeeID			INTEGER FOREIGN KEY REFERENCES tblEmployee (EmployeeID) NOT NULL,
 LineItemTotal		NUMERIC(18,2) NOT NULL,
 LineItemQty			INT NOT NULL,
+)
+
+CREATE TABLE tblCountryOfOrigin(
+    CountryOfOriginID   INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    CountryName varchar(50),
+    CountryDesc varchar(50)
+)
+
+CREATE TABLE tblShipment(
+    ShipmentID  			INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    ShipmentDate 			DATE,
+    ShipmentQty 			NUMERIC(8,2),
+    ShipmentCompany 	varchar(30)
+)
+
+CREATE TABLE tblCountryOfOriginShip(
+    CountryOfOriginShipID   INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    ShipmentID  						INTEGER FOREIGN KEY REFERENCES tblShipment (ShipmentID) NOT NULL,
+    CountryOfOriginID   		INTEGER FOREIGN KEY REFERENCES tblCountryOfOrigin (CountryOfOriginID) NOT NULL
+)
+
+CREATE TABLE tblEquipmentType(
+    EquipmentTypeID   INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    EquipmentTypeName varchar(30),
+    EquipmentTypeDesc varchar(50)
+)
+
+CREATE TABLE tblEquipment(
+    EquipmentID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    EquipmentTypeID INTEGER FOREIGN KEY REFERENCES tblEquipmentType (EquipmentTypeID) NOT NULL,
+    EquipmentName   varchar(30),
+    EquipmentCost   numeric(8,2),
+    EqupmentMfg varchar(50)
+)
+
+CREATE TABLE tblRoast(
+    RoastID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    RoastDate   DATE,
+    FirstCrackTime  numeric(8,2),
+    SecondCrackTime numeric(8,2)
+)
+
+CREATE TABLE tblBeanStatus(
+    BeanStatusID    INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    BeanStatus  varchar(30)
+)
+
+CREATE TABLE tblRoastBean(
+    RoastBeanID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    BeanStatusID INTEGER FOREIGN KEY REFERENCES tblBeanStatus (BeanStatusID) NOT NULL,
+    RoastID INTEGER FOREIGN KEY REFERENCES tblRoast (RoastID) NOT NULL
+)
+
+CREATE TABLE tblShipmentStatus(
+    ShipmentStatusID    INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    StatusDesc  varchar(30)
+)
+
+CREATE TABLE tblBean(
+    BeanID  						INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    BeanType    				varchar(30),
+    HarvestDate 				DATE,
+    BeanCost    				numeric(8,2),
+    BeanStatusID    		INTEGER FOREIGN KEY REFERENCES tblBeanStatus (BeanStatusID) NOT NULL,
+    CountryOfOriginShip INTEGER FOREIGN KEY REFERENCES tblCountryOfOriginShip (CountryOfOriginShipID) NOT NULL,
+    ShipmentStatusID    INTEGER FOREIGN KEY REFERENCES tblShipmentStatus (ShipmentStatusID) NOT NULL,
+)
+
+CREATE TABLE tblRoasterShipID(
+    tblRoasterShipID    INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    ShippingCompany    varchar(30),
+    ShipmentDate    DATE,
+    BeanQuantity    numeric(8,2),
+    BeanID INTEGER FOREIGN KEY REFERENCES tblBean (BeanID) NOT NULL,
+    LocationID  INTEGER FOREIGN KEY REFERENCES tblLocation(LocationID) NOT NULL
 )
 */
 
