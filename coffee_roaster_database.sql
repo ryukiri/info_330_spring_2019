@@ -82,6 +82,24 @@ PurchaseOrderID     INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 CustomerID  INTEGER FOREIGN KEY REFERENCES tblPosition (PositionID) NOT NULL,
 )
 
-
-
 */
+
+GO
+
+USE coffee_roaster
+
+GO
+
+INSERT INTO tblCountryOfOrigin (CountryName, CountryDesc)
+VALUES ('Ethiopia', 'african country'), ('Panama', 'central american country'), ('Brazil', 'south american country'), ('Indonesia', 'islands in south east asia')
+
+GO
+
+INSERT INTO tblEquipmentType (EquipmentTypeName, EquipmentTypeDesc)
+VALUES ('Coffee Roaster', '10kg gas coffee roaster')
+
+GO
+
+INSERT INTO tblPosition (PositionName, PositionDesc)
+VALUES ('Barista', 'Makes drinks and stuff'), ('Shop Manager', 'manages stuff'), ('Janitor', 'cleans stuff')
+
