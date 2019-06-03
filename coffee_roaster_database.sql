@@ -278,10 +278,10 @@ DECLARE @Equip_ID INTEGER
 
 SET @Equip_ID = (SELECT EquipmentTypeID
                 FROM tblEquipmentType
-                WHERE EquipmentTypeName LIKE @equipTypeName)
+                WHERE EquipmentTypeName = @equipTypeName)
 
 BEGIN TRAN G2
-    INSERT INTO tblEquipment(EquipmentTypeID, EquipmentName, EquipmentCost, EqupmentMfg)
+    INSERT INTO tblEquipment(EquipmentTypeID, EquipmentName, EquipmentCost, EquipmentMfg)
     VALUES (@Equip_ID, @equipName, @equipCost, @equipMfg)
 COMMIT TRAN G2
 
@@ -300,13 +300,13 @@ DECLARE @Ship_ID INTEGER
 
 SET @Count_ID = (SELECT CountryOfOriginID 
                 FROM tblCountryOfOrigin 
-                WHERE CountryName LIKE @countryName)
+                WHERE CountryName = @countryName)
 
 SET @Ship_ID = (SELECT ShipmentID
                 FROM tblShipment
-                WHERE ShipmentDate LIKE @shipDate
+                WHERE ShipmentDate = @shipDate
                 AND ShipmentQty = @shipQty
-                AND ShipmentCompany LIKE @shipCo)
+                AND ShipmentCompany = @shipCo)
 
 BEGIN TRAN G1
     INSERT INTO tblCountryOfOriginShip(ShipmentID, CountryOfOriginID)
@@ -344,3 +344,51 @@ BEGIN TRAN G1
     INSERT INTO tblCountryOfOriginShip(ShipmentID, CountryOfOriginID)
     VALUES (@Ship_ID, @Count_ID)
 COMMIT TRAN G1
+
+--GO
+/*
+-- Removing typo in column
+ALTER TABLE tblEquipment
+DROP COLUMN EqupmentMfg
+
+GO
+-- Needed to fix a typo in one of the tables
+ALTER TABLE tblEquipment
+ADD EquipmentMfg VARCHAR(50)
+*/
+
+GO
+-- Function to find the age of a given harvest date
+CREATE FUNCTION fn_harvestAge(@harvestDate DATE)
+RETURNS INT
+AS
+BEGIN
+	DECLARE @Age INT
+	SELECT @Age = DATEDIFF(MONTH, @harvestDate, GETDATE())
+	RETURN @Age
+END
+
+
+GO
+-- Function to make sure no harvest is recieved that is older than 6 months
+CREATE FUNCTION fn_harvestDate()
+RETURNS INT
+AS
+BEGIN
+DECLARE @ret INT = 0
+	IF EXISTS (SELECT HarvestDate
+				FROM tblBean
+                WHERE dbo.fn_harvestAge(HarvestDate) < 6)
+	SET @ret = 1
+RETURN @ret
+END
+
+
+GO
+
+
+ALTER TABLE tblEVENT_ATHLETE with nocheck
+ADD CONSTRAINT CK_AGE
+CHECK (dbo.fn_BoxingAthleteAboveEighteen() = 0)
+
+GETDATE
