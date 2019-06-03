@@ -308,10 +308,10 @@ SET @Ship_ID = (SELECT ShipmentID
                 AND ShipmentQty = @shipQty
                 AND ShipmentCompany LIKE @shipCo)
 
-BEGIN TRAN G1
+BEGIN TRAN G3
     INSERT INTO tblCountryOfOriginShip(ShipmentID, CountryOfOriginID)
     VALUES (@Ship_ID, @Count_ID)
-COMMIT TRAN G1
+COMMIT TRAN G3
 
 GO
 
