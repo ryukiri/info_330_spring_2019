@@ -263,3 +263,31 @@ GO
 
 INSERT INTO tblPosition (PositionName, PositionDesc)
 VALUES ('Barista', 'Makes drinks and stuff'), ('Shop Manager', 'manages stuff'), ('Janitor', 'cleans stuff')
+
+GO
+
+CREATE PROCEDURE uspNewBeanShipment
+@shipDate DATE,
+@shipQty numeric(8,2),
+@shipCo VARCHAR(30),
+@countryName VARCHAR(30)
+
+AS
+
+DECLARE @Count_ID INTEGER
+DECLARE @Ship_ID INTEGER
+
+SET @Count_ID = (SELECT CountryOfOriginID 
+                FROM tblCountryOfOrigin 
+                WHERE CountryName LIKE @countryName)
+
+SET @Ship_ID = (SELECT ShipmentID
+                FROM tblShipment
+                WHERE ShipmentDate LIKE @shipDate
+                AND ShipmentQty = @shipQty
+                AND ShipmentCompany LIKE @shipCo)
+
+BEGIN TRAN G1
+    INSERT INTO tblCountryOfOriginShip(ShipmentID, CountryOfOriginID)
+    VALUES (@Ship_ID, @Count_ID)
+COMMIT TRAN G1
