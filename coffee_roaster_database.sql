@@ -378,17 +378,13 @@ BEGIN
 DECLARE @ret INT = 0
 	IF EXISTS (SELECT HarvestDate
 				FROM tblBean
-                WHERE dbo.fn_harvestAge(HarvestDate) < 6)
+                WHERE dbo.fn_harvestAge(HarvestDate) <= 6)
 	SET @ret = 1
 RETURN @ret
 END
 
-
 GO
 
-
-ALTER TABLE tblEVENT_ATHLETE with nocheck
+ALTER TABLE tblBean with nocheck
 ADD CONSTRAINT CK_AGE
-CHECK (dbo.fn_BoxingAthleteAboveEighteen() = 0)
-
-GETDATE
+CHECK (dbo.fn_harvestAge() = 0)
