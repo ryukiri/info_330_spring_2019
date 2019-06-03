@@ -265,6 +265,27 @@ INSERT INTO tblPosition (PositionName, PositionDesc)
 VALUES ('Barista', 'Makes drinks and stuff'), ('Shop Manager', 'manages stuff'), ('Janitor', 'cleans stuff')
 
 GO
+--Adds a new piece of equipment, roaster or other
+CREATE PROCEDURE uspNewEquipment
+@equipName VARCHAR(30),
+@equipCost numeric(8,2),
+@equipTypeName VARCHAR(30),
+@equipMfg VARCHAR(50)
+
+AS 
+
+DECLARE @Equip_ID INTEGER
+
+SET @Equip_ID = (SELECT EquipmentTypeID
+                FROM tblEquipmentType
+                WHERE EquipmentTypeName LIKE @equipTypeName)
+
+BEGIN TRAN G2
+    INSERT INTO tblEquipment(EquipmentTypeID, EquipmentName, EquipmentCost, EqupmentMfg)
+    VALUES (@Equip_ID, @equipName, @equipCost, @equipMfg)
+COMMIT TRAN G2
+
+GO
 
 CREATE PROCEDURE uspNewBeanShipment
 @shipDate DATE,
