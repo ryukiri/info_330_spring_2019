@@ -301,8 +301,8 @@ CREATE PROCEDURE uspRoastProcess
 @shipDate DATE,
 @shipQty numeric(8,2),
 @shipCo VARCHAR(30),
-@countryName VARCHAR(30)
-@equipName 
+@countryName VARCHAR(30),
+@equipName VARCHAR(30)
 
 AS
 
