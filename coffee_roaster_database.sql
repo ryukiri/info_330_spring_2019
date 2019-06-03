@@ -1,4 +1,3 @@
--- CREATE DATABASE COFFEE_ROASTER_SP
 /*
 CREATE TABLE tblPosition (
 PositionID 		INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -243,7 +242,7 @@ CREATE TABLE tblRoasterShipID(
     BeanID INTEGER FOREIGN KEY REFERENCES tblBean (BeanID) NOT NULL,
     LocationID  INTEGER FOREIGN KEY REFERENCES tblLocation(LocationID) NOT NULL
 )
-*/
+
 
 GO
 
@@ -344,3 +343,96 @@ BEGIN TRAN G1
     INSERT INTO tblCountryOfOriginShip(ShipmentID, CountryOfOriginID)
     VALUES (@Ship_ID, @Count_ID)
 COMMIT TRAN G1
+*/
+
+
+/* Add FK EquipmentID to tblBean */
+/*
+ALTER TABLE tblBean
+ADD EquipmentID INTEGER FOREIGN KEY REFERENCES tblEquipment(EquipmentID) NOT NULL
+*/
+
+/* SP NEW BEAN */
+/*
+CREATE PROCEDURE newBean
+@beanType varchar(30),
+@harvestDate DATE,
+@beanCost numeric(8,2),
+@ShipDate DATE,
+@ShipQty numeric(8,2),
+@ShipCo varchar(30),
+@CountName varchar(50)
+AS
+BEGIN
+	DECLARE @beanStatus int
+	DECLARE @COOS int
+	DECLARE @shipmentStatus int
+	SET @beanStatus = (SELECT BeanStatusID
+		FROM tblBeanStatus bs WHERE bs.beanStatus = 'green')
+	SET @COOS = (SELECT CountryOfOriginShipID 
+        FROM tblCountryOfOriginShip coos 
+        JOIN tblShipment s ON s.ShipmentID = coos.ShipmentID
+        JOIN tblCountryOfOrigin coss ON coss.CountryOfOriginID = coos.CountryOfOriginID
+        WHERE coss.CountryName = @CountName
+        AND s.ShipmentCompany = @ShipCo
+        AND s.ShipmentDate = @ShipDate
+        AND s.ShipmentQty = @ShipQty)
+    SET @shipmentStatus = (SELECT ShipmentStatusID
+		FROM tblShipmentStatus ss WHERE ss.StatusDesc = 'CountryToRoaster')
+
+    Begin tran t1
+    INSERT INTO tblBean(BeanType, HarvestDate, BeanCost, BeanStatusID, CountryOfOriginShip, ShipmentStatusID)
+    VALUES (@beanType, @harvestDate, @beanCost, @beanStatus, @COOS, @shipmentStatus)
+    Commit tran t1
+END
+GO
+*/
+
+/*ADD name, address to tbl Location */
+/*
+ALTER TABLE tblLocation
+ADD locationName varchar(50),
+    locationAddress varchar(50)
+*/
+
+/* add location type desc to tbl location type */
+/*
+ALTER TABLE tblLocationType
+ADD locationTypeDesc varchar(30) NOT NULL
+*/
+
+/*
+CREATE PROCEDURE newOrder
+@SaleTotal numeric(8,2),
+@SaleDate DATE,
+@CustFName varchar(50),
+@CustLName varchar(50),
+@locationName varchar(30),
+@locationAddy varchar(50),
+@phone Char(8),
+@email varchar(50),
+@address varchar(50),
+@custBirth DATE,
+@city varchar(50),
+@state varchar(50),
+@zip Char(10)
+AS
+BEGIN
+    DECLARE @custID INT
+    DECLARE @locID INT
+    SET @custID = (SELECT CustomerID FROM tblCustomer c
+        WHERE c.CustomerAddress = @address AND c.CustomerBirth = @custBirth
+        AND c.CustomerCity = @city AND c.CustomerEmail = @email
+        AND c.CustomerFname = @CustFName AND c.CustomerLname = @CustLName
+        AND c.CustomerPhone = @phone AND c.CustomerState = @state 
+        AND c.CustomerZip = @zip)
+    SET @locID = (SELECT LocationID FROM tblLocation l
+        WHERE l.locationName = @locationName AND l.locationAddress = @locationAddy)
+    
+    BEGIN tran t1
+    INSERT INTO tblOrder(CustomerID, LocationID, SaleTotal, SaleDate)
+    VALUES (@custID, @locID, @SaleTotal, @SaleDate)
+    COMMIT tran t1
+END
+GO
+*/
