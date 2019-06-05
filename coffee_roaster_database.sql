@@ -454,3 +454,21 @@ INSERT INTO tblShipment (SHipmentDate, ShipmentQty, ShipmentCompany)
 VALUES ('Mar 02, 2019', 60, 'Alex Ship Co.'), ('Mar 15, 2019', 60, 'Austin Ship Co.'), ('Mar 31, 2019', 60 ,'Robi Ship Co.')
 */
 
+--Adding equipment to the Equipment table
+EXEC uspNewEquipment
+@equipName = "Wriggly",
+@equipCost = 10000.00,
+@equipTypeName = "Coffee Roaster",
+@equipMfg = "Davis Machines"
+
+-- 
+EXEC uspNewBeanShipment
+@shipDate = 'Mar 02, 2019',
+@shipQty = 60,
+@shipCo = 'Alex Ship Co.',
+@countryName = 'Ethiopia'
+
+SELECT S.ShipmentDate, S.ShipmentQty, S.ShipmentCompany, CO.CountryName
+FROM tblShipment S
+JOIN tblCountryOfOriginShip COOS ON S.ShipmentID = COOS.ShipmentID
+JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
