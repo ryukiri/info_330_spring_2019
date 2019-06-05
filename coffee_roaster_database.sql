@@ -652,7 +652,7 @@ FROM tblCustomer C
 GROUP BY C.CustomerFname, C.CustomerLname
 HAVING COUNT(LI.LineItemID) >= 4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-=======
+/*
     JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
 GROUP BY S.ShipmentDate, S.ShipmentCompany, COO.CountryName
 
@@ -660,4 +660,3 @@ GROUP BY S.ShipmentDate, S.ShipmentCompany, COO.CountryName
 ALTER TABLE tblShipment
 ADD AgeOfShipmentInDays AS DATEDIFF(DAY, ShipmentDate, GETDATE())
 */
->>>>>>> alex_branch
