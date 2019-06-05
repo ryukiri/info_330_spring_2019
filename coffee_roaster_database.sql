@@ -314,38 +314,6 @@ COMMIT TRAN G3
 
 GO
 
-CREATE PROCEDURE uspRoastProcess
-@beanType DATE,
-@harvestDate numeric(8,2),
-@beanCost numeric(8,2),
-@shipDate DATE,
-@shipQty numeric(8,2),
-@shipCo VARCHAR(30),
-@countryName VARCHAR(30),
-@equipName VARCHAR(30)
-
-AS
-
-DECLARE @Count_ID INTEGER
-DECLARE @Ship_ID INTEGER
-
-SET @Count_ID = (SELECT CountryOfOriginID 
-                FROM tblCountryOfOrigin 
-                WHERE CountryName LIKE @countryName)
-
-SET @Ship_ID = (SELECT ShipmentID
-                FROM tblShipment
-                WHERE ShipmentDate LIKE @shipDate
-                AND ShipmentQty = @shipQty
-                AND ShipmentCompany LIKE @shipCo)
-
-BEGIN TRAN G1
-    INSERT INTO tblCountryOfOriginShip(ShipmentID, CountryOfOriginID)
-    VALUES (@Ship_ID, @Count_ID)
-COMMIT TRAN G1
-*/
-
-
 /* Add FK EquipmentID to tblBean */
 /*
 ALTER TABLE tblBean
