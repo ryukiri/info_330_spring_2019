@@ -473,3 +473,156 @@ SELECT S.ShipmentDate, S.ShipmentQty, S.ShipmentCompany, COO.CountryName
 FROM tblShipment S
 JOIN tblCountryOfOriginShip COOS ON S.ShipmentID = COOS.ShipmentID
 JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
+
+/* ~~~~~~~~~~~~~~~~~~~~~ Austin's Below ~~~~~~~~~~~~~~~~~~~~~
+-- New Drink
+CREATE PROCEDURE uspNewDrink
+@DrinkTypeName VARCHAR(80),
+@DrinkTypeDesc VARCHAR(150),
+@DrinkSize VARCHAR(20),
+@ProductTypeName VARCHAR(80),
+@ProductTypeDesc VARCHAR(150),
+@DrinkName VARCHAR(50),
+@DrinkDesc VARCHAR(150),
+@DrinkPrice NUMERIC(18, 2)
+
+AS 
+
+DECLARE @DT_ID INTEGER 
+DECLARE @PT_ID INTEGER 
+
+SET @DT_ID = (SELECT DrinkTypeID
+							FROM tblDrinkType
+							WHERE DrinkTypeName = @DrinkTypeName
+								AND DrinkTypeDesc = @DrinkTypeDesc
+								AND DrinkSize = @DrinkSize)
+								
+SET @PT_ID = (SELECT ProductTypeID
+							FROM tblProductType
+							WHERE ProductTypeName = @ProductTypeName
+								AND ProductTypeDesc = @ProductTypeDesc)
+								
+BEGIN TRAN F1
+	INSERT INTO tblDrink(DrinkTypeID, ProductTypeID, DrinkName, DrinkDesc, DrinkPrice)
+	VALUES (@DT_ID, @PT_ID, @DrinkName, @DrinkDesc, @DrinkPrice)
+COMMIT TRAN F1
+
+GO 
+
+-- New Order 
+CREATE PROCEDURE uspNewOrder
+@CustomerFName VARCHAR(50),
+@CustomerLName VARCHAR(50),
+@CustomerPhone CHAR(8),
+@CustomerEmail VARCHAR(50),
+@CustomerBirth DATE,
+@CustomerAddress VARCHAR(50),
+@CustomerCity	VARCHAR(50),
+@CustomerState VARCHAR(50),
+@CustomerZip CHAR(10),
+@LocationTypeDesc VARCHAR(30),
+@LocationName VARCHAR(50),
+@LocationAddress VARCHAR(50),
+@SaleTotal NUMERIC(18,2),
+@SaleDate DATE 
+
+AS
+
+DECLARE @C_ID INTEGER 
+DECLARE @LT_ID INTEGER 
+DECLARE @L_ID INTEGER
+
+SET @C_ID = (SELECT CustomerID
+						 FROM tblCustomer
+						 WHERE CustomerFName = @CustomerFName
+								AND CustomerLName = @CustomerLName
+								AND CustomerPhone = @CustomerPhone
+								AND CustomerEmail = @CustomerEmail
+								AND CustomerBirth = @CustomerBirth
+								AND CustomerAddress = @CustomerAddress
+								AND CustomerCity = @CustomerCity
+								AND CustomerState = @CustomerState
+								AND CustomerZip = @CustomerZip)
+								
+SET @LT_ID = (SELECT LocationTypeID
+							FROM tblLocationType
+							WHERE LocationTypeDesc = @LocationTypeDesc)
+							
+SET @L_ID = (SELECT LocationID 
+						 FROM tblLocation
+						 WHERE LocationTypeID = @LT_ID 
+								AND locationName = @LocationName
+								AND locationAddress = @LocationAddress)
+
+BEGIN TRAN F2
+	INSERT INTO tblOrder(CustomerID, LocationID, SaleTotal, SaleDate)
+	VALUES (@C_ID, @L_ID, @SaleTotal, @SaleDate)
+COMMIT TRAN F2
+GO 
+
+-- Function to find age of employee. 
+CREATE FUNCTION fn_employeeAge(@EmployeeBirth DATE)
+RETURNS INT 
+AS 
+BEGIN 
+	DECLARE @Age INT 
+	SELECT @Age = DATEDIFF(MONTH, @EmployeeBirth, GETDATE())
+	RETURN @Age 
+END 
+GO
+
+-- Function to make sure employee is greater than 18 years old. 
+CREATE FUNCTION fn_isOlderThan18()
+RETURNS INT 
+AS 
+BEGIN 
+DECLARE @ret INT = 0
+	IF EXISTS (SELECT EmployeeBirth from tblEmployee
+								WHERE dbo.fn_employeeAge(EmployeeBirth) >= 18)
+	SET @ret = 1
+RETURN @ret 
+END 
+GO 
+
+-- Add constraint to reinforce business rule that no employee is younger than 18 years old. 
+SELECT dbo.fn_isOlderThan18()
+ALTER TABLE tblEmployee
+ADD CONSTRAINT CK_underage 
+CHECK (dbo.fn_isOlderThan18() = 0)
+GO 
+
+-- Write the code to create a computed column to count the number of employees being paid at least $20. 
+CREATE FUNCTION fn_numRichEmps(@PK INT)
+RETURNS INT
+AS 
+BEGIN
+	DECLARE @Ret INT = 
+		(SELECT COUNT(*)
+		 FROM tblEmployee E 
+				JOIN tblEmpPosition EP ON E.EmpPositionID = EP.EmpPositionID
+		 WHERE EP.Wage >= 20
+				AND E.EmployeeID = @PK)
+	RETURN @Ret 
+END 
+GO
+
+-- Find the customer who spent the most money, having ordered at least 4 items, served by an employee between 7AM and 10AM.
+SELECT C.CustomerFname, C.CustomerLname, COUNT(LI.LineItemID) AS NumberOfOrders
+FROM tblCustomer C
+	JOIN tblORDER O on C.CustomerID = O.CustomerID
+	JOIN tblLineItem LI ON O.OrderID = LI.OrderID
+	JOIN tblProduct P ON LI.ProductID = P.ProductID
+	JOIN tblProductType PT ON P.ProductTypeID = PT.ProductTypeID
+	JOIN tblDrink D ON PT.ProductTypeID = D.ProductTypeID
+	JOIN tblDrinkType DT ON D.DrinkTypeID = DT.DrinkTypeID
+	JOIN(		SELECT C.CustomerFname, C.CustomerLname, C.CustomerID
+					FROM tblCustomer C
+						JOIN tblORDER O on C.CustomerID = O.CustomerID
+						JOIN tblLineItem LI ON O.OrderID = LI.OrderID
+						JOIN tblEmployee E ON LI.EmployeeID = E.EmployeeID
+						JOIN tblEmployeeShift ES ON ES.EmployeeID = E.EmployeeID
+					WHERE ES.BeginTime = '7AM'
+						AND ES.EndTime = '10AM') AS subquery ON C.CustomerID = subquery.CustomerID
+GROUP BY C.CustomerFname, C.CustomerLname
+HAVING COUNT(LI.LineItemID) >= 4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
