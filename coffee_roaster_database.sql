@@ -452,7 +452,6 @@ GO
 
 INSERT INTO tblShipment (SHipmentDate, ShipmentQty, ShipmentCompany)
 VALUES ('Mar 02, 2019', 60, 'Alex Ship Co.'), ('Mar 15, 2019', 60, 'Austin Ship Co.'), ('Mar 31, 2019', 60 ,'Robi Ship Co.')
-*/
 
 --Adding equipment to the Equipment table
 EXEC uspNewEquipment
@@ -468,8 +467,22 @@ EXEC uspNewBeanShipment
 @shipCo = 'Alex Ship Co.',
 @countryName = 'Ethiopia'
 
+EXEC uspNewBeanShipment
+@shipDate = 'Mar 15, 2019',
+@shipQty = 60,
+@shipCo = 'Austin Ship Co.',
+@countryName = 'Panama'
+
+EXEC uspNewBeanShipment
+@shipDate = 'Mar 31, 2019',
+@shipQty = 60,
+@shipCo = 'Robi Ship Co.',
+@countryName = 'Brazil'
+
 --View to see the list of shipments
-SELECT S.ShipmentDate, S.ShipmentQty, S.ShipmentCompany, COO.CountryName
+SELECT S.ShipmentDate, S.ShipmentCompany, COO.CountryName, SUM(ShipmentQty) AS ShipmentTotal
 FROM tblShipment S
 JOIN tblCountryOfOriginShip COOS ON S.ShipmentID = COOS.ShipmentID
-JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
+    JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
+GROUP BY S.ShipmentDate, S.ShipmentCompany, COO.CountryName
+*/
