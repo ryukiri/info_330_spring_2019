@@ -474,6 +474,21 @@ FROM tblShipment S
 JOIN tblCountryOfOriginShip COOS ON S.ShipmentID = COOS.ShipmentID
 JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
 
+/*
+-- Populating Customers
+INSERT INTO tblCustomer (CustomerFName, CustomerLName, CustomerPhone, CustomerEmail, CustomerBirth, CustomerAddress, CustomerCity, CustomerState, CustomerZip)
+VALUES ('Kobe', 'Bryant', '74843829', 'kobe@kobe.com', 'Aug 23, 1978', '1 Laker Way', 'Los Angeles', 'California', '90001'),
+		   ('LeBron', 'James', '19836473', 'lebron@lakers.com', 'Dec 30, 1984', '2 Laker Way', 'Los Angeles', 'California', '90001'),
+			 ('Steve', 'Nash', '39485739', 'steve@lakers.com', 'Feb 7, 1974', '3 Laker Way', 'Los Angeles', 'California', '90001'),
+			 ('Pau', 'Gasol', '59684039', 'pau@lakers.com', 'July 6, 1980', '4 Laker Way', 'Los Angeles', 'California', '90001'),
+			 ('Metta', 'World Peace', '911', 'metta@lakers.com', 'Nov 13, 1979', '5 Laker Way', 'Los Angeles', 'California', '90001'),
+			 ('Barack', 'Obama', '48394857', 'barack@president.com', 'Dec 17, 1984', '1 President Way', 'Los Angeles', 'California', '90001'),
+			 ('Magic', 'Johnson', '10392837', 'magic@lakers.com', 'March 15, 1832', '0 Laker Way', 'Los Angeles', 'California', '90001')
+
+SELECT *
+FROM tblCustomer
+*/
+
 /* ~~~~~~~~~~~~~~~~~~~~~ Austin's Below ~~~~~~~~~~~~~~~~~~~~~
 -- New Drink
 CREATE PROCEDURE uspNewDrink
