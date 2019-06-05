@@ -243,7 +243,6 @@ CREATE TABLE tblRoasterShipID(
     LocationID  INTEGER FOREIGN KEY REFERENCES tblLocation(LocationID) NOT NULL
 )
 
-
 GO
 
 USE coffee_roaster
@@ -264,6 +263,7 @@ INSERT INTO tblPosition (PositionName, PositionDesc)
 VALUES ('Barista', 'Makes drinks and stuff'), ('Shop Manager', 'manages stuff'), ('Janitor', 'cleans stuff')
 
 GO
+
 --Adds a new piece of equipment, roaster or other
 CREATE PROCEDURE uspNewEquipment
 @equipName VARCHAR(30),
