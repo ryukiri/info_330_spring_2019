@@ -482,8 +482,8 @@ EXEC uspNewBeanShipment
 SELECT S.ShipmentDate, S.ShipmentCompany, COO.CountryName, SUM(ShipmentQty) AS ShipmentTotal
 FROM tblShipment S
 JOIN tblCountryOfOriginShip COOS ON S.ShipmentID = COOS.ShipmentID
-<<<<<<< HEAD
-JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
+    JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
+GROUP BY S.ShipmentDate, S.ShipmentCompany, COO.CountryName
 
 /*
 -- Populating Customers
