@@ -243,7 +243,6 @@ CREATE TABLE tblRoasterShipID(
     LocationID  INTEGER FOREIGN KEY REFERENCES tblLocation(LocationID) NOT NULL
 )
 
-
 GO
 
 USE coffee_roaster
@@ -264,6 +263,7 @@ INSERT INTO tblPosition (PositionName, PositionDesc)
 VALUES ('Barista', 'Makes drinks and stuff'), ('Shop Manager', 'manages stuff'), ('Janitor', 'cleans stuff')
 
 GO
+
 --Adds a new piece of equipment, roaster or other
 CREATE PROCEDURE uspNewEquipment
 @equipName VARCHAR(30),
@@ -452,7 +452,6 @@ GO
 
 INSERT INTO tblShipment (ShipmentDate, ShipmentQty, ShipmentCompany)
 VALUES ('Mar 02, 2019', 60, 'Alex Ship Co.'), ('Mar 15, 2019', 60, 'Austin Ship Co.'), ('Mar 31, 2019', 60 ,'Robi Ship Co.')
-*/
 
 --Adding equipment to the Equipment table
 EXEC uspNewEquipment
@@ -461,17 +460,29 @@ EXEC uspNewEquipment
 @equipTypeName = "Coffee Roaster",
 @equipMfg = "Davis Machines"
 
--- 
 EXEC uspNewBeanShipment
 @shipDate = 'Mar 02, 2019',
 @shipQty = 60,
 @shipCo = 'Alex Ship Co.',
 @countryName = 'Ethiopia'
 
+EXEC uspNewBeanShipment
+@shipDate = 'Mar 15, 2019',
+@shipQty = 60,
+@shipCo = 'Austin Ship Co.',
+@countryName = 'Panama'
+
+EXEC uspNewBeanShipment
+@shipDate = 'Mar 31, 2019',
+@shipQty = 60,
+@shipCo = 'Robi Ship Co.',
+@countryName = 'Brazil'
+
 --View to see the list of shipments
-SELECT S.ShipmentDate, S.ShipmentQty, S.ShipmentCompany, COO.CountryName
+SELECT S.ShipmentDate, S.ShipmentCompany, COO.CountryName, SUM(ShipmentQty) AS ShipmentTotal
 FROM tblShipment S
 JOIN tblCountryOfOriginShip COOS ON S.ShipmentID = COOS.ShipmentID
+<<<<<<< HEAD
 JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
 
 /*
@@ -641,3 +652,12 @@ FROM tblCustomer C
 GROUP BY C.CustomerFname, C.CustomerLname
 HAVING COUNT(LI.LineItemID) >= 4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+=======
+    JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
+GROUP BY S.ShipmentDate, S.ShipmentCompany, COO.CountryName
+
+--Get age of shipment in days
+ALTER TABLE tblShipment
+ADD AgeOfShipmentInDays AS DATEDIFF(DAY, ShipmentDate, GETDATE())
+*/
+>>>>>>> alex_branch
