@@ -485,4 +485,8 @@ FROM tblShipment S
 JOIN tblCountryOfOriginShip COOS ON S.ShipmentID = COOS.ShipmentID
     JOIN tblCountryOfOrigin COO ON COOS.CountryOfOriginID = COO.CountryOfOriginID
 GROUP BY S.ShipmentDate, S.ShipmentCompany, COO.CountryName
+
+--Get age of shipment in days
+ALTER TABLE tblShipment
+ADD AgeOfShipmentInDays AS DATEDIFF(DAY, ShipmentDate, GETDATE())
 */
