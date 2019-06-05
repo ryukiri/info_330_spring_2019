@@ -460,7 +460,6 @@ EXEC uspNewEquipment
 @equipTypeName = "Coffee Roaster",
 @equipMfg = "Davis Machines"
 
--- 
 EXEC uspNewBeanShipment
 @shipDate = 'Mar 02, 2019',
 @shipQty = 60,
