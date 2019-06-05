@@ -415,7 +415,7 @@ GO
 -- Needed to fix a typo in one of the tables
 ALTER TABLE tblEquipment
 ADD EquipmentMfg VARCHAR(50)
-*/
+
 
 GO
 -- Function to find the age of a given harvest date
@@ -428,17 +428,16 @@ BEGIN
 	RETURN @Age
 END
 
-
 GO
 -- Function to make sure no harvest is recieved that is older than 6 months
-CREATE FUNCTION fn_harvestDate()
+CREATE FUNCTION fn_isOlderThanSixMonths()
 RETURNS INT
 AS
 BEGIN
 DECLARE @ret INT = 0
 	IF EXISTS (SELECT HarvestDate
 				FROM tblBean
-                WHERE dbo.fn_harvestAge(HarvestDate) <= 6)
+                WHERE dbo.fn_harvestAge(HarvestDate) > 6)
 	SET @ret = 1
 RETURN @ret
 END
@@ -446,5 +445,12 @@ END
 GO
 
 ALTER TABLE tblBean with nocheck
-ADD CONSTRAINT CK_AGE
-CHECK (dbo.fn_harvestAge() = 0)
+ADD CONSTRAINT CheckAgeYoungerThanSixMonths_
+CHECK (dbo.fn_isOlderThanSixMonths() = 0)
+
+GO
+
+INSERT INTO tblShipment (SHipmentDate, ShipmentQty, ShipmentCompany)
+VALUES ('Mar 02, 2019', 60, 'Alex Ship Co.'), ('Mar 15, 2019', 60, 'Austin Ship Co.'), ('Mar 31, 2019', 60 ,'Robi Ship Co.')
+*/
+
